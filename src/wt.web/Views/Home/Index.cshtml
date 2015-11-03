@@ -1,0 +1,69 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-sm-4">
+        <h5>Сервисы для получения информации о погоде:</h5>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value="Yandex" data-bind="checked: services">Яндекс
+            </label>
+            (<a href="https://pogoda.yandex.ru/">Pogoda.Yandex.ru</a>)
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" value="OpenWeatherMap" data-bind="checked: services">OpenWeatherMap
+            </label>
+            (<a href="http://openweathermap.org/">OpenWeatherMap.org</a>)
+        </div>
+
+        <div class="input-group" style="margin-bottom: 10px; margin-top: 20px;">
+            <input type="text" class="form-control" placeholder="Город" data-bind="value: city">
+            <span class="input-group-btn">
+                <button class="btn btn-default" type="button" data-bind="click: add">Добавить</button>
+            </span>
+        </div>
+        <div data-bind="foreach: cities">
+            <div>
+                <span data-bind="text: name"></span> -
+                <a href="#" data-bind="click: $parent.remove">удалить</a>
+            </div>
+        </div>
+        <hr/>
+        <p class="pull-right">
+            <button type="button" class="btn btn-success" data-bind="click: update, attr:{disabled: isLoad}">Обновть сведения</button>
+        </p>
+    </div>
+
+    <div class="col-sm-8">
+        <div data-bind="visible: isLoad">
+            <i class="fa fa-spinner fa-pulse"></i>
+        </div>
+
+        <div data-bind="foreach: weatherInfo, visible: !isLoad()">
+            <h4>
+                <span data-bind="text: Service"></span></h4>
+            <table class="table table-hover">
+                <tr>
+                    <th class="col-xs-2">Город</th>
+                    <th class="col-xs-2">Описание</th>
+                    <th class="col-xs-2">Темппература, °C</th>
+                    <th class="col-xs-2">Влажность, %</th>
+                    <th class="col-xs-2">Давление, мм рт. ст.</th>
+                    <th class="col-xs-2">Ветер, м/с</th>
+                </tr>
+                <!-- ko foreach: $data.Cities -->
+                <tr>
+                    <td><span data-bind="text: City"></span></td>
+                    <td><span data-bind="text: Info.Description"></span></td>
+                    <td><span data-bind="text: Info.Temperature"></span><span> °C</span></td>
+                    <td><span data-bind="text: Info.Humidity"></span><span>%</span></td>
+                    <td><span data-bind="text: Info.Pressure"></span><span> мм рт. ст.</span></td>
+                    <td><span data-bind="text: Info.Wind"></span> м/с, <span data-bind="text: Info.WindDirection"></span></td>
+                </tr>
+                <!-- /ko -->
+            </table>
+        </div>
+    </div>
+</div>
